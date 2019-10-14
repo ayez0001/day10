@@ -1,0 +1,92 @@
+<mat-toolbar color="primary" >
+      <div fxlayout="row column" fxLayoutAlign="space-around" > 
+                   REGISTRATION 
+          
+
+            <button mat-icon-button  (click)="Home()">
+                <mat-icon>home</mat-icon>
+              
+                </button> 
+      </div> 
+</mat-toolbar>
+<!--<app-detail></app-detail>
+<app-confirmation></app-confirmation>
+<app-list></app-list>
+<mat-card>
+<form #form="ngForm" (ngSumbit)= "process(form)" fxLayout ="column" >
+
+<mat-form-field>
+    <input type="text" matInput placeholder="Name" name="name" required ngModel >
+</mat-form-field>
+<br>
+
+<mat-form-field>
+    <input type="text" matInput placeholder="Email" name="email" #emailField="ngModel" required email ngModel >
+</mat-form-field>
+<mat-hint *ngIf="emailField.invalid"> please enter valid email</mat-hint>
+<mat-error *ngIf="emailField.hasError('email')">Invalid email</mat-error>
+<br>
+
+<mat-form-field>
+    <input type="password" matInput placeholder="Passwrod" name="password" #passwordField="ngModel" required minlength="8" ngModel [ngClass]="{ 'is-invalid': form.submitted && passwordField.invalid }">
+</mat-form-field>
+<mat-hint *ngIf="passwordField.invalid"> please enter minimum 8 characters</mat-hint>
+<mat-error *ngIf="passwordField.hasError('minlength')">less than 8 character </mat-error>
+
+<br>
+
+<label id="label">Gender:</label>
+<br>
+    <mat-radio-group required aria-labelledby="label" ngModel name="gender">
+        <mat-radio-button value="male">Male</mat-radio-button>
+        <mat-radio-button value="female">Female</mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <br>
+
+    <mat-form-field>
+        <input required ngModel name="birthdate" matInput [matDatepicker]="picker" placeholder="Date of Birth">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input type="text" placeholder="Addres" name="address" ngModel matInput required>
+    </mat-form-field>
+ 
+    <mat-form-field >
+            <br>
+           <mat-form-field >
+            <input required matInput placeholder="Contact No" ngModel type="number" name="contactno" pattern="[89][\d]{7}">
+        </mat-form-field> 
+
+        <br>
+        <mat-form-field > 
+        <input type="number"  placeholder="Contact No" ngModel required matInput ng-pattern="/^[7-9][0-9]{9}$/" #phonenumber="ngModel"name="contactno" >
+        <mat-hint *ngIf="phonenumber.invalid"> please enter valid phone number</mat-hint>
+        <br><br>
+        
+    </mat-form-field>
+    <br>
+
+<mat-card>
+    <div fxLayout="row column"  fxLayoutAlign="center" fxLayoutGap="800vw">
+    <button mat-raised-button type="reset" color="primary">
+            <mat-icon>clear</mat-icon>
+            Reset
+          </button>
+    
+          <button  mat-raised-button type="submit" [disabled]="form.invalid" color="primary" (click)="confirmation()">
+              <mat-icon>add</mat-icon>
+           Submit
+          </button>
+
+</div>
+</mat-card>
+</form>
+</mat-card> -->
+<router-outlet></router-outlet>
+
+
+                
+ 

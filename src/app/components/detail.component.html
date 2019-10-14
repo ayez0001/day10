@@ -1,0 +1,78 @@
+<mat-card>
+        <form #form="ngForm" (ngSumbit)= "process(form)" fxLayout ="column" >
+        
+        <mat-form-field>
+            <input type="text" id="name" matInput placeholder="Name" name="name" required ngModel >
+        </mat-form-field>
+        <br>
+        
+        <mat-form-field>
+            <input type="text" matInput placeholder="Email" id="email"
+            name="email" #emailField="ngModel" required email ngModel >
+        </mat-form-field>
+        <mat-hint *ngIf="emailField.invalid"> please enter valid email</mat-hint>
+        <mat-error *ngIf="emailField.hasError('email')">Invalid email</mat-error>
+        <br>
+        
+        <mat-form-field>
+            <input type="password" matInput id="password" placeholder="Passwrod" name="password" #passwordField="ngModel" required minlength="8" ngModel [ngClass]="{ 'is-invalid': form.submitted && passwordField.invalid }">
+        </mat-form-field>
+        <mat-hint *ngIf="passwordField.invalid"> please enter minimum 8 characters</mat-hint>
+        <mat-error *ngIf="passwordField.hasError('minlength')">less than 8 character </mat-error>
+        
+        <br>
+        
+        <label id="label">Gender:</label>
+        <br>
+            <mat-radio-group id="gender" required aria-labelledby="label" ngModel name="gender">
+                <mat-radio-button value="male">Male</mat-radio-button>
+                <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+            <br>
+            <br>
+        
+            <mat-form-field>
+                <input required ngModel id="date" #age="ngModel" name="birthdate" matInput [matDatepicker]="picker" placeholder="Date of Birth">
+                <mat-datepicker-toggle matSuffix [for]="picker" minyear = "2001"  maxyear ="2019" ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="age.hasError('minyear')"> registrant must be at least 18 years old </mat-error>  
+                <mat-error *ngIf="age.hasError('maxyear')"> registrant must be at least 18 years old </mat-error>  
+
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input type="text" id="address" placeholder="Address" name="address" ngModel matInput required>
+            </mat-form-field>
+         
+            <!--<mat-form-field >
+                    <br>
+                   <mat-form-field >
+                    <input required matInput placeholder="Contact No" ngModel type="number" name="contactno" pattern="[89][\d]{7}">
+                </mat-form-field> -->
+        
+                <br>
+                <mat-form-field > 
+                <input type="number"  id="phone" placeholder="Contact No" ngModel required matInput ng-pattern="/^[7-9][0-9]{9}$/" #phonenumber="ngModel"name="contactno" >
+                <mat-hint *ngIf="phonenumber.invalid"> please enter valid phone number</mat-hint>
+                <br><br>
+                
+            </mat-form-field>
+            <br>
+        
+        <mat-card>
+            <div fxLayout="row column"  fxLayoutAlign="center" fxLayoutGap="800vw">
+            <button mat-raised-button type="reset" color="primary">
+                    <mat-icon>clear</mat-icon>
+                    Reset
+                  </button>
+            
+                  <button  mat-raised-button type="submit" [disabled]="form.invalid" color="primary" (click)="confirmation()">
+                      <mat-icon>add</mat-icon>
+                   Submit
+                  </button>
+        
+         
+        </div>
+        </mat-card>
+        </form>
+        </mat-card>
