@@ -1,78 +1,113 @@
+<h3 mat-subheader>&nbsp;Registration Form</h3>
 <mat-card>
-        <form #form="ngForm" (ngSumbit)= "process(form)" fxLayout ="column" >
-        
-        <mat-form-field>
-            <input type="text" id="name" matInput placeholder="Name" name="name" required ngModel >
-        </mat-form-field>
-        <br>
-        
-        <mat-form-field>
-            <input type="text" matInput placeholder="Email" id="email"
-            name="email" #emailField="ngModel" required email ngModel >
-        </mat-form-field>
-        <mat-hint *ngIf="emailField.invalid"> please enter valid email</mat-hint>
-        <mat-error *ngIf="emailField.hasError('email')">Invalid email</mat-error>
-        <br>
-        
-        <mat-form-field>
-            <input type="password" matInput id="password" placeholder="Passwrod" name="password" #passwordField="ngModel" required minlength="8" ngModel [ngClass]="{ 'is-invalid': form.submitted && passwordField.invalid }">
-        </mat-form-field>
-        <mat-hint *ngIf="passwordField.invalid"> please enter minimum 8 characters</mat-hint>
-        <mat-error *ngIf="passwordField.hasError('minlength')">less than 8 character </mat-error>
-        
-        <br>
-        
-        <label id="label">Gender:</label>
-        <br>
-            <mat-radio-group id="gender" required aria-labelledby="label" ngModel name="gender">
-                <mat-radio-button value="male">Male</mat-radio-button>
-                <mat-radio-button value="female">Female</mat-radio-button>
+<div class="example-container">
+    <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- email field-->
+        <div fxLayout="column" fxLayoutAlign="flex-start" fxLayoutGap="1vw">
+            <mat-form-field>
+                <input matInput id="email" #email="ngModel" name="email" type="text" [(ngModel)]="model.email" placeholder="you@domain.com" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                <div *ngIf="email.errors && (email.touched)">
+                    <div *ngIf="email.errors.required">
+                        <mat-error [hidden]="!email.errors.required && email.dirty">Email is required</mat-error>
+                    </div>
+                    <div *ngIf="email.errors.pattern">
+                        <mat-error [hidden]="!email.errors.pattern">Email is invalid</mat-error>
+                    </div>    
+                </div>
+            </mat-form-field>
+            <br/>
+            <!-- Password field-->
+            <mat-form-field>
+                <input matInput id="password" #password="ngModel" name="password" type="password" [(ngModel)]="model.password" placeholder="it's your secret" pattern="^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$" required />
+                <div *ngIf="password.errors && (password.touched)">
+                    <div *ngIf="password.errors.required">
+                        <mat-error [hidden]="!password.errors.required && password.dirty">Password is required</mat-error>
+                    </div>
+                    <div *ngIf="password.errors.pattern">
+                        <mat-error [hidden]="!password.errors.pattern">Password is invalid</mat-error>
+                    </div>   
+                </div>  
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <input matInput id="name" #name="ngModel" name="name" type="text" [(ngModel)]="model.name" placeholder="Name" required />
+                <div *ngIf="name.errors && (name.touched)">
+                    <div *ngIf="name.errors.required">
+                        <mat-error [hidden]="!name.errors.required && name.dirty">Name is required</mat-error>
+                    </div>  
+                </div>   
+            </mat-form-field>
+            <br/>
+            <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+             [(ngModel)]="model.gender" name="gender">
+                <mat-radio-button class="example-radio-button" *ngFor="let g of gender" [value]="g.value">
+                    {{g.name}}&nbsp;
+                </mat-radio-button>
             </mat-radio-group>
-            <br>
-            <br>
-        
+            <br/>
             <mat-form-field>
-                <input required ngModel id="date" #age="ngModel" name="birthdate" matInput [matDatepicker]="picker" placeholder="Date of Birth">
-                <mat-datepicker-toggle matSuffix [for]="picker" minyear = "2001"  maxyear ="2019" ></mat-datepicker-toggle>
+                <input matInput [matDatepicker]="picker" placeholder="Date of Birth" name="dob" #dateOfBirth="ngModel" [(ngModel)]="model.dob" (dateChange)="checkAge()" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="age.hasError('minyear')"> registrant must be at least 18 years old </mat-error>  
-                <mat-error *ngIf="age.hasError('maxyear')"> registrant must be at least 18 years old </mat-error>  
-
+                <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched)">
+                    <div *ngIf="dateOfBirth.errors.required">
+                        <mat-error [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty">Date of Birth is required</mat-error>
+                    </div>  
+                </div>
+                <mat-error *ngIf="ageCheckFlag">Registrant must be at least 18</mat-error>
             </mat-form-field>
-            <br>
+            <br/>
             <mat-form-field>
-                <input type="text" id="address" placeholder="Address" name="address" ngModel matInput required>
+                <textarea matInput rows="4" cols="50" id="address" placeholder="Address" name="address" #address="ngModel" [(ngModel)]="model.address" required>
+                </textarea>
+                <div *ngIf="address.errors && (address.touched)">
+                    <div *ngIf="address.errors.required">
+                        <mat-error [hidden]="!address.errors.required && address.dirty">Address is required</mat-error>
+                    </div>  
+                </div> 
             </mat-form-field>
-         
-            <!--<mat-form-field >
-                    <br>
-                   <mat-form-field >
-                    <input required matInput placeholder="Contact No" ngModel type="number" name="contactno" pattern="[89][\d]{7}">
-                </mat-form-field> -->
-        
-                <br>
-                <mat-form-field > 
-                <input type="number"  id="phone" placeholder="Contact No" ngModel required matInput ng-pattern="/^[7-9][0-9]{9}$/" #phonenumber="ngModel"name="contactno" >
-                <mat-hint *ngIf="phonenumber.invalid"> please enter valid phone number</mat-hint>
-                <br><br>
-                
+            <mat-form-field>
+            <mat-label>Nationality</mat-label>
+                <select matNativeControl #nationality="ngModel" id="nationality" name="nationality" [(ngModel)]="model.country" required>
+                        <option *ngFor="let nationality of nationalities" [ngValue]="nationality.code">{{nationality.name}}</option>
+                </select>
+                <div *ngIf="nationality.errors && (nationality.touched)">
+                    <div *ngIf="nationality.errors.required">
+                        <mat-error [hidden]="!nationality.errors.required && nationality.dirty">Nationality is required</mat-error>
+                    </div>  
+                </div> 
             </mat-form-field>
+            <br/>
+            <mat-form-field>
+                    <input matInput id="contactNo" #contactNo="ngModel" name="contactNo" type="text" [(ngModel)]="model.contactNo" placeholder="Contact No" pattern="^([0-9\(\)\/\+ \-]*)$" required />
+                    <div *ngIf="contactNo.errors && (contactNo.touched)">
+                        <div *ngIf="contactNo.errors.required">
+                            <mat-error [hidden]="!contactNo.errors.required && contactNo.dirty">Contact No. is required</mat-error>
+                        </div> {{contactNo.errors.pattern}}
+                        <div *ngIf="contactNo.errors.pattern">
+                            <mat-error [hidden]="!contactNo.errors.pattern">Contact No. is invalid</mat-error>
+                        </div> 
+                    </div>   
+                </mat-form-field>
             <br>
-        
-        <mat-card>
-            <div fxLayout="row column"  fxLayoutAlign="center" fxLayoutGap="800vw">
-            <button mat-raised-button type="reset" color="primary">
-                    <mat-icon>clear</mat-icon>
-                    Reset
-                  </button>
-            
-                  <button  mat-raised-button type="submit" [disabled]="form.invalid" color="primary" (click)="confirmation()">
-                      <mat-icon>add</mat-icon>
-                   Submit
-                  </button>
-        
-         
+            <button
+                mat-raised-button
+                color="primary"
+                type="submit" 
+                [disabled]="regForm.invalid || ageCheckFlag"
+            >
+            Submit
+            </button>
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="resetForm()"
+            >
+            Reset
+            </button>
         </div>
-        </mat-card>
-        </form>
-        </mat-card>
+    </form>
+</div>
+</mat-card>

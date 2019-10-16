@@ -1,39 +1,28 @@
-<h2>Your information Detail</h2>
-
-    <!--<mat-card *ngFor="let list of infolist; let i = index"> -->
-                <mat-card-title>
-                    title
-                   Name: name
-                   Email: email
-                   Gender: gender
-                   Phone: phone
-                   Address: address
-                   DateOfBirth: date
-                   Country: country
-                </mat-card-title>
-                  <!--   <mat-card-subtitle>
-                      
-               Email: {{ list.email }}
-                   Gender:{{ list.gender }}
-                   Phone:{{ list.phone }}
-                   DateofBirth:{{ list.date }}
-                   Address:{{ list.address }}
-                   Country:{{ list.country }}
-                </mat-card-subtitle>
-               </mat-card> -->
-           
- <mat-card>
-                <div fxLayout="row column"  fxLayoutAlign="center" fxLayoutGap="800vw">
-                <button mat-raised-button type="Cancel" color="primary" (click)="home()">
-                        <mat-icon>reply</mat-icon>
-                    Back
-                      </button>
-                
-                      <button  mat-raised-button type="confirm" color="primary" (click)="list()">
-                          <mat-icon>add</mat-icon>
-                     Confirm
-                      </button>
-            
-             
-            </div>
-            </mat-card>
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title>Thanks for signing up! </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+        Email : {{model?.email}}
+        </p>
+        <p>
+        Name : {{model?.name}}
+        </p>
+        <p>
+        Gender : {{model?.gender}}
+        </p>
+        <p>
+        Date of Birth : {{model?.dob | date:'mediumDate'}}
+        </p>
+        <p>
+        Address : {{model?.address}}
+        </p>
+        <p>
+        Country : {{model?.country}}
+        </p>
+        <p>
+        Contact No. : {{model?.contactNo}}
+        </p>
+    </mat-card-content>
+</mat-card>

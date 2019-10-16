@@ -1,8 +1,12 @@
-import { Component , OnInit, Output, EventEmitter } from '@angular/core';
-import { NgForm, NgModel, SelectControlValueAccessor } from '@angular/forms';
-import { Router } from '@angular/router';
-import { infolist } from '../models';
+import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
+import { CountriesService } from '../service/country.service';
+import { UsersService } from '../service/users.service';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
+import { Registration } from '../models/Register';
+import * as moment from "moment";
 
 @Component({
   selector: 'app-detail',
@@ -10,51 +14,71 @@ import { infolist } from '../models';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
-
-  @Output() onAddForm = new EventEmitter <infolist>();
-
-      process(form:NgForm) {
-     // const values = form.value;
-     const name = form.value.name;
-     const email = form.value.email;
-     const gender = form.value.gender;
-     const date = form.value.date;
-     const address = form.value.address;
-     const country = form.value.country;
-     const phone= form.value.phone;
-     // console.log("form.value: ", values);
   
-//      const v: infolist = {
-// name,email, gender,date,address,country
-//      }
-      // const v:infolist = {
-      //   name:values.name,
-      //   email:values.email,
-      //   gender:values.gneder,
-      //   date:values.date,
-      //   address:values.address,
-      //   country:values.country,
-      //   phone:values.phone,
-      // }
+  model = new Registration('','','F','','','','','');
+  gender = [
+    {name:'Male', value:'M'}, 
+    {name:'Female', value:'F'}
+  ];
+  ageCheckFlag: boolean = false;
 
-    //  console.log("v: ", v);
-      this.onAddForm.next(name);
-      this.onAddForm.next(email);
-      this.onAddForm.next(gender);
-      this.onAddForm.next(date);
-      this.onAddForm.next(address);
-      this.onAddForm.next(country);
-      this.onAddForm.next(phone);
-      form.resetForm();  
+  nationalities: any;
 
+  constructor(private snackBar: MatSnackBar, 
+    private countriesSvc: CountriesService,
+    private usersSvc: UsersService,
+    private router: Router) { 
+      
+  }
+
+  ngOnInit() {
+    this.countriesSvc.getCountries().then(result=>{
+      this.nationalities = result;
+      this.model.country = 'SG';
+    }).catch((error)=>{
+      let snackBarRef = this.snackBar.open(error, "Close", {
+        duration: 3000
+      });
+    })
+  }
+
+  checkAge() {
+    let dobDate = new Date(this.model.dob);
+    const today = moment();
+    const delta = today.diff(dobDate, "years", false);
+    if (delta < 18) {
+      console.log("less than !")
+      let snackBarRef = this.snackBar.open("Registrant must be at least 18 yrs old.", "Done");
+      this.ageCheckFlag = true;
+    }else{
+      this.ageCheckFlag = false;
     }
+  }
 
-  constructor(private router:Router){}
+  onSubmit(){
+    
+    let registerUserObj = {
+      email: this.model.email,
+      password: this.model.password,
+      name: this.model.name,
+      gender: this.model.gender,
+      dob: this.model.dob,
+      address: this.model.address,
+      country: this.model.country,
+      contactNo: this.model.contactNo
+    }
+    this.checkAge();
+    if(!this.ageCheckFlag){
+      this.usersSvc.registerUser(registerUserObj);
+      let snackBarRef = this.snackBar.open("User registered!", "Done", {
+        duration: 3000
+      });
+      this.router.navigate(['confirm']);
+    }
+    
+  }
 
-
- confirmation(){
-  this.router.navigate(['/confirm']);
-}
-ngOnInit() {
-}
+  resetForm(){
+    this.model = new Registration('','','F','','','SG','','');
+  }
 }

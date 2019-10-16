@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
-import { Router } from '@angular/router';
-import { infolist } from "../models";
+import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../service/users.service';
+import { Registration } from '../models/Register';
 
 
 @Component({
@@ -10,25 +9,13 @@ import { infolist } from "../models";
   styleUrls: ['./confirmation.component.css']
 })
 export class ConfirmationComponent implements OnInit {
+  model: Registration;
 
-
-  // @Input() infolist:infolist[];
-  @Input() name: string;
-  @Input()  email:string;
-    @Input() gender: string;
-    @Input() date: string;
-    @Input() phone: string;
-    @Input() address: string;
-
-  constructor(private router:Router){}
+  constructor(private userSvc: UsersService) { }
 
   ngOnInit() {
-  }
-  list(){
-    this.router.navigate(['/list']);
-  }
-  home(){
-    this.router.navigate(['']);
+    this.model = this.userSvc.getRegisteredUser();
+    console.log(this.model);
   }
 
 }

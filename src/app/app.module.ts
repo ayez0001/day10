@@ -28,7 +28,10 @@ import { MatDatepickerModule } from '@angular/material';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    MaterialModule
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+     MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
