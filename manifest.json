@@ -1,10 +1,11 @@
 {
-  "name": "registerapp",
+  "name": "register",
+  "short_name": "register",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
-  "display": "standalone",
+  "display": "fullscreen",
   "Scope": "/",
-  "start_url": "/day10",
+  "start_url": "/day10_revise",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
